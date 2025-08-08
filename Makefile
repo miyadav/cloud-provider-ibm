@@ -62,6 +62,27 @@ vet:
 test:
 	go test -v -race -covermode=atomic -coverprofile=cover.out ${GOPACKAGES}
 
+.PHONY: test-integration
+test-integration:
+	go test -v ./pkg/testing/ -run TestIntegration
+
+.PHONY: test-e2e
+test-e2e:
+	go build -o test-runner cmd/test-runner/main.go
+	./test-runner -suite=all -verbose
+
+.PHONY: test-loadbalancer
+test-loadbalancer:
+	go test -v ./pkg/testing/ -run TestLoadBalancerIntegration
+
+.PHONY: test-nodes
+test-nodes:
+	go test -v ./pkg/testing/ -run TestNodeIntegration
+
+.PHONY: test-services
+test-services:
+	go test -v ./pkg/testing/ -run TestServiceIntegration
+
 .PHONY: ccm
 ccm:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ibm-cloud-controller-manager -ldflags '-w -X cloud.ibm.com/cloud-provider-ibm/ibm.Version=${TAG}' .
@@ -70,3 +91,4 @@ ccm:
 clean:
 	rm -f cover.out
 	rm -f ibm-cloud-controller-manager
+	rm -f test-runner

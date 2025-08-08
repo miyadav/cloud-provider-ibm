@@ -1,2 +1,47 @@
+# Test coverage
 cover.out
+
+# Binary files
 ibm-cloud-controller-manager
+test-runner
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build artifacts
+bin/
+dist/
+build/
+
+# Go specific
+*.test
+*.prof
+*.out
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test artifacts
+test-results/
+coverage/

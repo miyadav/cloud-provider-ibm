@@ -8,6 +8,7 @@ require (
 	github.com/IBM/vpc-go-sdk v0.70.1
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/go-openapi/strfmt v0.23.0
+	github.com/miyadav/cloud-provider-testing-interface v0.0.0-20250806100157-057e00053199
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.7
 	github.com/stretchr/testify v1.10.0

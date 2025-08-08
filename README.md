@@ -11,12 +11,99 @@ infrastructure node and load balancer support to
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution guidelines.
 
-## Unit Testing
+## Testing
+
+The IBM Cloud Provider includes comprehensive testing using the [cloud-provider-testing-interface](https://github.com/miyadav/cloud-provider-testing-interface) for end-to-end (e2e) testing.
+
+### Unit Testing
 
 The [GO GitHub Action](.github/workflows/go.yml) workflow will run the GO unit tests on pull requests.
 The GO unit tests can also be invoked locally by running:
 
-`make test`
+```bash
+make test
+```
+
+### Integration Testing
+
+Run integration tests that use the testing interface:
+
+```bash
+make test-integration
+```
+
+### End-to-End Testing
+
+Run comprehensive e2e tests using the test runner:
+
+```bash
+# Run all e2e tests
+make test-e2e
+
+# Run specific test suites
+make test-loadbalancer
+make test-nodes
+make test-services
+```
+
+### Test Runner
+
+Use the test runner for more control over test execution:
+
+```bash
+# Build the test runner
+go build -o test-runner cmd/test-runner/main.go
+
+# Run all test suites
+./test-runner -suite=all -verbose
+
+# Run specific test suites
+./test-runner -suite=loadbalancer -verbose
+./test-runner -suite=nodes -verbose
+./test-runner -suite=services -verbose
+
+# Run with custom timeout
+./test-runner -suite=all -timeout=1h -verbose
+```
+
+### Individual Test Suites
+
+Run individual test suites directly:
+
+```bash
+# Load Balancer tests
+go test -v ./pkg/testing/ -run TestLoadBalancerIntegration
+
+# Node tests
+go test -v ./pkg/testing/ -run TestNodeIntegration
+
+# Service tests
+go test -v ./pkg/testing/ -run TestServiceIntegration
+
+# All integration tests
+go test -v ./pkg/testing/ -run TestFullIntegration
+```
+
+### Prerequisites
+
+Before running e2e tests, ensure you have:
+
+1. **Kubernetes Cluster**: A running Kubernetes cluster with the IBM Cloud Provider installed
+2. **Kubeconfig**: Valid kubeconfig file at `~/.kube/config` with cluster access
+3. **Go Environment**: Go 1.24 or later installed
+4. **IBM Cloud Credentials**: Proper IBM Cloud credentials configured (if testing against real IBM Cloud)
+
+### Test Configuration
+
+Tests can be configured using `config/test-config.yaml` or environment variables:
+
+```bash
+export IBM_CLOUD_REGION="us-south"
+export IBM_CLOUD_ZONE="us-south-1"
+export KUBECONFIG="/path/to/your/kubeconfig"
+```
+
+For detailed testing documentation, see [TESTING.md](./TESTING.md).
 
 ## Dependencies
 

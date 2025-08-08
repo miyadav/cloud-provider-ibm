@@ -1,0 +1,19 @@
+test:
+  provider:
+    name: "ibm"
+    region: "us-south"
+    zone: "us-south-1"
+  
+  cluster:
+    name: "test-cluster"
+    version: "1.24.0"
+  
+  resources:
+    cleanup: true
+    timeout: "5m"
+  
+  external_services:
+    mock: false  # Use real cloud services for integration tests
+
+  kubeconfig:
+    path: "~/.kube/config"  # Path to kubeconfig file
