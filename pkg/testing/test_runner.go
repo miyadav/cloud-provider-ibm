@@ -58,16 +58,18 @@ func (tr *TestRunner) RunTests(ctx context.Context) error {
 		return fmt.Errorf("failed to setup test environment: %w", err)
 	}
 
+	// Ensure cleanup happens even if tests fail
+	defer func() {
+		if err := tr.testInterface.TeardownTestEnvironment(); err != nil {
+			fmt.Printf("Warning: failed to teardown test environment: %v\n", err)
+		}
+	}()
+
 	// Run each test suite
 	for _, suite := range tr.testSuites {
 		if err := tr.runTestSuite(ctx, suite); err != nil {
 			return fmt.Errorf("failed to run test suite %s: %w", suite.Name, err)
 		}
-	}
-
-	// Teardown test environment
-	if err := tr.testInterface.TeardownTestEnvironment(); err != nil {
-		return fmt.Errorf("failed to teardown test environment: %w", err)
 	}
 
 	tr.summary.TotalDuration = time.Since(startTime)
